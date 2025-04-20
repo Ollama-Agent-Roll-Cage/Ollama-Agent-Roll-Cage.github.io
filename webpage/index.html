@@ -1,0 +1,270 @@
+\index.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OARC & AgentChef Documentation</title>
+    <style>
+        :root {
+            --bg-dark: #0d1117;
+            --bg-glass: rgba(30, 41, 59, 0.7);
+            --text-primary: #e6edf3;
+            --text-secondary: #8b949e;
+            --accent: #58a6ff;
+            --border: rgba(88, 166, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--bg-glass);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            padding: 1rem;
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            height: 40px;
+            width: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 100px auto 0;
+            padding: 2rem;
+        }
+
+        .glass-card {
+            background: var(--bg-glass);
+            backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            border: 1px solid var(--border);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #58a6ff, #ff58a6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        h2 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        h3 {
+            color: var(--text-primary);
+            margin: 1rem 0;
+        }
+
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: var(--accent);
+            color: var(--bg-dark);
+            text-decoration: none;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            transition: transform 0.3s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .emoji {
+            font-size: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-content">
+            <div class="logo-container">
+                <img src="../assets/oarc_icon_removed_background.png" alt="OARC Logo" class="logo">
+                <img src="../assets/agentchef_removed_background.png" alt="AgentChef Logo" class="logo">
+            </div>
+            <div class="nav-links">
+                <a href="#about">About</a>
+                <a href="#oarc">OARC</a>
+                <a href="#agentchef">AgentChef</a>
+                <a href="https://github.com/Ollama-Agent-Roll-Cage">GitHub</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <section class="hero glass-card">
+            <h1>OARC & AgentChef</h1>
+            <p>Advancing AI Agent Development with Local Models and Dataset Generation</p>
+        </section>
+
+        <section id="about" class="glass-card">
+            <h2>About OARC 🌌</h2>
+            <p>Ollama Agent Roll Cage (OARC) is a Python-based framework combining the power of ollama LLMs, Coqui-TTS, Keras classifiers, LLaVA Vision, Whisper Speech Recognition, and YOLOv8 Object Detection into a unified chatbot agent API for local, custom automation.</p>
+            <div class="grid">
+                <div class="glass-card">
+                    <h3>Unified API 🔄</h3>
+                    <p>Streamline chatbot agent design and deployment with a comprehensive API.</p>
+                </div>
+                <div class="glass-card">
+                    <h3>Multimodal Capabilities 🎯</h3>
+                    <p>Integrate speech, vision, and data retrieval seamlessly.</p>
+                </div>
+                <div class="glass-card">
+                    <h3>Custom Automation 🤖</h3>
+                    <p>Build tailored workflows for your unique use cases.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="agentchef" class="glass-card">
+            <h2>AgentChef 👨‍🍳</h2>
+            <p>A comprehensive Python library for AI research, dataset generation, and conversation management using large language models.</p>
+            <div class="grid">
+                <div class="glass-card">
+                    <h3>AI-Powered Research 🔍</h3>
+                    <p>Search and process web content, ArXiv papers, and GitHub repositories.</p>
+                </div>
+                <div class="glass-card">
+                    <h3>Dataset Generation 📊</h3>
+                    <p>Create and expand high-quality conversation datasets for AI training.</p>
+                </div>
+                <div class="glass-card">
+                    <h3>Quality Control ✨</h3>
+                    <p>Clean and validate generated datasets to ensure high quality.</p>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 2rem;">
+                <a href="https://github.com/Leoleojames1/agentChef" class="btn">View on GitHub</a>
+            </div>
+        </section>
+
+        <section class="glass-card">
+            <h2>Documentation</h2>
+            <div class="grid">
+                <a href="https://github.com/Ollama-Agent-Roll-Cage/oarc/blob/master/docs/what_is_an_agent/what_is_an_agent.md" class="glass-card" style="text-decoration: none;">
+                    <h3>What is an Agent? 🤖</h3>
+                    <p>Learn about OARC's approach to agent development and implementation.</p>
+                </a>
+                <a href="https://github.com/Ollama-Agent-Roll-Cage/oarc/tree/master/docs/speech_to_speech" class="glass-card" style="text-decoration: none;">
+                    <h3>Speech-to-Speech 🎤</h3>
+                    <p>Explore OARC's speech processing architecture.</p>
+                </a>
+                <a href="https://github.com/Leoleojames1/agentChef/tree/main/docs" class="glass-card" style="text-decoration: none;">
+                    <h3>AgentChef Docs 📚</h3>
+                    <p>Detailed documentation for AgentChef's components and features.</p>
+                </a>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Add smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Add parallax effect to glass cards
+        window.addEventListener('scroll', () => {
+            document.querySelectorAll('.glass-card').forEach(card => {
+                const rect = card.getBoundingClientRect();
+                const isVisible = rect.top < window.innerHeight && rect.bottom >= 0;
+                if (isVisible) {
+                    const scrolled = window.pageYOffset;
+                    card.style.transform = `translateY(${scrolled * 0.02}px)`;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
