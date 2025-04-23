@@ -237,6 +237,9 @@
             flex-direction: column;
             overflow: hidden;
             z-index: 1000;
+            resize: both;
+            min-width: 300px;
+            min-height: 400px;
         }
 
         .chat-header {
@@ -246,6 +249,8 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            cursor: move;
+            user-select: none;
         }
 
         .chat-header img {
@@ -553,17 +558,33 @@
             input.value = '';
 
             try {
-                // Call the backend API with the correct URL
-                const response = await fetch('http://localhost:8000/api/chat', {
+                // Call Groq API directly
+                const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer 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'
                     },
-                    body: JSON.stringify({ message })
+                    body: JSON.stringify({
+                        model: "llama2-70b-4096",
+                        messages: [
+                            {
+                                role: "system",
+                                content: "You are OARC Butler, a helpful AI assistant that explains the OARC (Ollama Agent Roll Cage) documentation. Be concise, accurate, and helpful."
+                            },
+                            {
+                                role: "user",
+                                content: message
+                            }
+                        ],
+                        temperature: 0.7,
+                        max_tokens: 1024,
+                        stream: true
+                    })
                 });
 
                 if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                    throw new Error('API request failed');
                 }
 
                 const reader = response.body.getReader();
@@ -575,20 +596,77 @@
                     if (done) break;
                     
                     const chunk = decoder.decode(value);
-                    botMessage += chunk;
-                    
-                    // Update the last bot message or create a new one
-                    const lastMessage = document.querySelector('.message.bot:last-child');
-                    if (lastMessage) {
-                        lastMessage.textContent = botMessage;
-                    } else {
-                        appendMessage(botMessage, true);
+                    // Parse SSE data
+                    const lines = chunk.split('\n');
+                    for (const line of lines) {
+                        if (line.startsWith('data: ') && line !== 'data: [DONE]') {
+                            const jsonData = JSON.parse(line.slice(5));
+                            if (jsonData.choices[0].delta.content) {
+                                botMessage += jsonData.choices[0].delta.content;
+                                // Update the last bot message or create a new one
+                                const lastMessage = document.querySelector('.message.bot:last-child');
+                                if (lastMessage) {
+                                    lastMessage.textContent = botMessage;
+                                } else {
+                                    appendMessage(botMessage, true);
+                                }
+                            }
+                        }
                     }
                 }
             } catch (error) {
                 console.error('Error:', error);
                 appendMessage('Sorry, I encountered an error. Please try again.', true);
             }
+        }
+
+        // Make chat window draggable
+        let isDragging = false;
+        let currentX;
+        let currentY;
+        let initialX;
+        let initialY;
+        let xOffset = 0;
+        let yOffset = 0;
+
+        const chatHeader = document.querySelector('.chat-header');
+        const chatContainer = document.getElementById('chatContainer');
+
+        chatHeader.addEventListener('mousedown', startDragging);
+        document.addEventListener('mousemove', drag);
+        document.addEventListener('mouseup', stopDragging);
+
+        function startDragging(e) {
+            initialX = e.clientX - xOffset;
+            initialY = e.clientY - yOffset;
+
+            if (e.target === chatHeader) {
+                isDragging = true;
+            }
+        }
+
+        function drag(e) {
+            if (isDragging) {
+                e.preventDefault();
+                
+                currentX = e.clientX - initialX;
+                currentY = e.clientY - initialY;
+
+                xOffset = currentX;
+                yOffset = currentY;
+
+                setTranslate(currentX, currentY, chatContainer);
+            }
+        }
+
+        function stopDragging() {
+            initialX = currentX;
+            initialY = currentY;
+            isDragging = false;
+        }
+
+        function setTranslate(xPos, yPos, el) {
+            el.style.transform = `translate3d(${xPos}px, ${yPos}px, 0)`;
         }
     </script>
 </body>
