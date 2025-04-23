@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-from groq import Groq
 import os
 import sys
 import argparse
@@ -9,9 +8,6 @@ from rich.prompt import Prompt
 from rich.panel import Panel
 
 console = Console()
-
-def load_api_key():
-    return "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"
 
 def print_help():
     help_text = """
@@ -65,31 +61,6 @@ def print_info_panel(title, content):
     console.print(Panel(Markdown(content), title=title, border_style="blue"))
     return True
 
-def chat_with_groq(message):
-    client = Groq(api_key=load_api_key())
-    
-    try:
-        completion = client.chat.completions.create(
-            model="llama2-70b-4096",
-            messages=[
-                {
-                    "role": "system",
-                    "content": "You are OARC Butler, a helpful AI assistant that explains the OARC (Ollama Agent Roll Cage) documentation. Be concise, accurate, and helpful."
-                },
-                {
-                    "role": "user",
-                    "content": message
-                }
-            ],
-            temperature=0.7,
-            max_tokens=1024
-        )
-        
-        response = completion.choices[0].message.content
-        console.print(Panel(Markdown(response), title="OARC Butler", border_style="green"))
-    except Exception as e:
-        console.print(f"[red]Error: {str(e)}[/red]")
-
 def main():
     console.print(Panel("Welcome to OARC Butler CLI! Type /help for available commands.", 
                        title="OARC Butler", border_style="blue"))
@@ -100,9 +71,9 @@ def main():
             
             if user_input.startswith('/'):
                 if not handle_command(user_input.lower()):
-                    chat_with_groq(user_input)
+                    console.print("[red]Unknown command. Type /help for available commands.[/red]")
             else:
-                chat_with_groq(user_input)
+                console.print("[red]Invalid input. Please use a valid command.[/red]")
                 
         except KeyboardInterrupt:
             console.print("\nGoodbye! 👋")

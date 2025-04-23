@@ -563,7 +563,8 @@
   docs              Get documentation links
   discord           Get Discord server link
   clear             Clear the terminal
-  exit              Close the CLI`
+  exit              Close the CLI
+  version           Show CLI version`
             },
             'about': {
                 description: 'Learn about OARC',
@@ -583,22 +584,35 @@ Into a unified chatbot agent API for local, custom automation.`
 - Modal Flags (TTS_FLAG, STT_FLAG, LLAVA_FLAG)
 - Models Configuration
 - Tool Integration
-- Speech Processing Pipeline`
+- Speech Processing Pipeline
+- Local Development Ecosystem
+- Cross-Platform Support`
             },
             'agent': {
                 description: 'What is an Agent?',
                 handler: () => `"An agent refers to the algorithmic logic that wraps a model and via iteration, generates the chain of thought output for the model" — Borch
 
-The Agentic Action Space is where LLM-generated text prompts transcend mere words and become actionable through programming logic.`
+The Agentic Action Space is where LLM-generated text prompts transcend mere words and become actionable through programming logic.
+
+Key Agent Components:
+- Model Wrapping
+- Chain of Thought Processing
+- Action Space Integration
+- Multi-Modal Support
+- Tool Integration Pipeline`
             },
             'speech': {
                 description: 'Speech-to-Speech architecture',
                 handler: () => `OARC Speech-to-Speech Pipeline:
 - Silence removal preprocess
 - Smart user interrupt
-- Wake words
+- Wake word detection
+- Voice activity detection
+- Neural voice cloning
 - Debate moderator mode
-- LLM sentence chunking preprocess for TTS`
+- LLM sentence chunking preprocess for TTS
+- Real-time streaming support
+- Multi-speaker handling`
             },
             'docs': {
                 description: 'Get documentation links',
@@ -617,6 +631,14 @@ The Agentic Action Space is where LLM-generated text prompts transcend mere word
                     document.getElementById('chatMessages').innerHTML = '<div class="message system">OARC CLI v1.0.0 - Type \'help\' for available commands</div>';
                     return null;
                 }
+            },
+            'version': {
+                description: 'Show CLI version',
+                handler: () => `OARC CLI v1.0.0
+Build: 2025.04.23
+Platform: Web Browser
+Mode: Static Website
+Author: OARC Team`
             },
             'exit': {
                 description: 'Close the CLI',
