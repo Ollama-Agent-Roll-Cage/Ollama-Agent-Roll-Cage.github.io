@@ -9,8 +9,7 @@ import asyncio
 from datetime import datetime
 from dotenv import load_dotenv
 from pathlib import Path
-
-from web_crawler import WebCrawler
+import aiohttp
 
 # Load environment variables
 load_dotenv()
@@ -33,16 +32,31 @@ if not api_key:
 
 client = Groq(api_key=api_key)
 
-# Initialize WebCrawler
-crawler = WebCrawler()
+async def fetch_docs():
+    """Fetch documentation from GitHub repo"""
+    async with aiohttp.ClientSession() as session:
+        urls = [
+            "https://github.com/Ollama-Agent-Roll-Cage/oarc/blob/master/docs/what_is_an_agent/what_is_an_agent.md",
+            "https://github.com/Ollama-Agent-Roll-Cage/oarc/tree/master/docs/speech_to_speech",
+            "https://github.com/Leoleojames1/agentChef/tree/main/docs"
+        ]
+        docs = []
+        for url in urls:
+            try:
+                async with session.get(url) as response:
+                    if response.status == 200:
+                        content = await response.text()
+                        docs.append(content)
+            except Exception as e:
+                print(f"Error fetching {url}: {e}")
+        return " ".join(docs)
 
 async def stream_chat_response(message: str) -> AsyncGenerator[str, None]:
     """Stream the chat response from Groq"""
     
-    # First, let's get relevant documentation using the webcrawler
     try:
-        # Crawl the documentation pages
-        docs = await crawler.crawl_documentation_site("https://github.com/Ollama-Agent-Roll-Cage/oarc/tree/master/docs")
+        # Fetch documentation content
+        docs = await fetch_docs()
         
         # Create a context-aware prompt
         system_prompt = f"""You are OARC Butler, a helpful AI assistant that explains the OARC (Ollama Agent Roll Cage) documentation.
