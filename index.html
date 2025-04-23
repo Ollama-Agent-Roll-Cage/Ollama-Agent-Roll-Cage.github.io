@@ -579,7 +579,7 @@
                         ],
                         temperature: 0.7,
                         max_tokens: 1024,
-                        stream: true
+                        stream: false  // Changed to false for non-streaming response
                     })
                 });
 
@@ -587,36 +587,12 @@
                     throw new Error('API request failed');
                 }
 
-                const reader = response.body.getReader();
-                let decoder = new TextDecoder();
-                let botMessage = '';
-
-                while (true) {
-                    const { value, done } = await reader.read();
-                    if (done) break;
-                    
-                    const chunk = decoder.decode(value);
-                    // Parse SSE data
-                    const lines = chunk.split('\n');
-                    for (const line of lines) {
-                        if (line.startsWith('data: ') && line !== 'data: [DONE]') {
-                            const jsonData = JSON.parse(line.slice(5));
-                            if (jsonData.choices[0].delta.content) {
-                                botMessage += jsonData.choices[0].delta.content;
-                                // Update the last bot message or create a new one
-                                const lastMessage = document.querySelector('.message.bot:last-child');
-                                if (lastMessage) {
-                                    lastMessage.textContent = botMessage;
-                                } else {
-                                    appendMessage(botMessage, true);
-                                }
-                            }
-                        }
-                    }
-                }
+                const data = await response.json();
+                const botMessage = data.choices[0].message.content;
+                appendMessage(botMessage, true);
             } catch (error) {
                 console.error('Error:', error);
-                appendMessage('Sorry, I encountered an error. Please try again.', true);
+                appendMessage('Sorry, I encountered an error. Please try again. (Error: ' + error.message + ')', true);
             }
         }
 
