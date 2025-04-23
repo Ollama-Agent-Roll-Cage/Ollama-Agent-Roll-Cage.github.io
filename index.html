@@ -553,8 +553,8 @@
             input.value = '';
 
             try {
-                // Call the backend API
-                const response = await fetch('/api/chat', {
+                // Call the backend API with the correct URL
+                const response = await fetch('http://localhost:8000/api/chat', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
